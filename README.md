@@ -1,168 +1,204 @@
-# 🧠 BrainSync AI — AI-Powered Personal Knowledge Base (RAG System)
+# 🧠 BrainSync AI — AI-Powered Personal Knowledge Base & RAG System
 
-> An open-source, full-stack Personal Knowledge Management (PKM) platform equipped with Retrieval-Augmented Generation (RAG) to upload, organize, search, and chat with your documents in real-time with precise citations.
+[![Next.js](https://img.shields.io/badge/Next.js-14.2-black?style=flat-square&logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
+[![Database](https://img.shields.io/badge/Neon-PostgreSQL_&_pgvector-00e599?style=flat-square&logo=postgresql)](https://neon.tech/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38bdf8?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
 
----
-
-## 📌 Executive Summary & Product Overview
-
-**BrainSync AI** solves the information overload problem for students, researchers, and developers. Traditional keyword searches fail when querying large personal document collections. Generic LLMs lack private access to user notes and suffer from hallucinations. 
-
-BrainSync AI combines a modern **Markdown/Rich-Text Editor** with a **Vector Database & RAG Pipeline**, delivering instant semantic context retrieval, streaming AI responses, and accurate source attribution.
+> **BrainSync AI** is an advanced, full-stack Personal Knowledge Management (PKM) platform powered by **Retrieval-Augmented Generation (RAG)**, **Hybrid Vector & Keyword Search**, interactive **Knowledge Graph**, and an AI-augmented **TipTap Editor**. Effortlessly ingest, analyze, connect, and chat with your documents in real-time with verified source citations.
 
 ---
 
-## 🎯 Key Features
+## 🚀 Key Features
 
-- 📁 **Multi-Format Document Ingestion:** Support for PDF, Markdown (`.md`), and Plain Text (`.txt`) up to 20MB per file.
-- ⚡ **Automated Vector Pipeline:** Instant parsing, recursive chunking (500–1000 tokens), embedding generation, and vector indexing.
-- 💬 **Interactive RAG Chat:** Conversational UI with word-by-word streaming responses via Server-Sent Events (SSE).
-- 🔍 **Source Citation & Traceability:** Every AI answer cites the exact document chunk and similarity score used to form the response.
-- 📝 **Smart Markdown Editor:** Integrated TipTap/Slate editor with inline AI completions (summarize, rephrase, continue writing).
-- 🔒 **Privacy & Rate Limiting:** Row-Level Security (RLS) ensures full document isolation, with API usage capped via Upstash Redis.
-
----
-
-## 🛠️ Tech Stack & System Architecture
-
-### Tech Stack
-- **Frontend:** Next.js 14 (App Router), TypeScript, Tailwind CSS, Shadcn UI
-- **Editor:** TipTap Headless Editor
-- **Backend & API:** Next.js API Routes / Node.js
-- **Database & Vectors:** Neon (PostgreSQL + `pgvector`)
-- **AI Framework & SDK:** LangChain.js, Vercel AI SDK
-- **LLM & Embedding Models:** OpenRouter (`gpt-4o-mini`, `text-embedding-3-small`) / Google Gemini API
-- **Rate Limiting:** Upstash Redis
+- 📄 **Multi-Format Document Ingestion:** Full support for PDF files (`pdf-parse`), Markdown (`.md`), and raw text, complete with automatic chunking and vector indexing.
+- 🌐 **Web Content Scraping:** Dedicated web scraping API endpoint to parse, extract, and convert online articles into structured knowledge entries.
+- ⚡ **Hybrid Search & RAG Pipeline:** Combines **Dense Vector Embeddings** (`pgvector`) with **Sparse Keyword Search** (BM25 algorithms) for high-precision document chunk retrieval.
+- 💬 **Interactive AI Chat:** Context-aware assistant powered by OpenRouter LLM APIs with real-time response streaming and precise chunk-level source citations.
+- 🕸️ **Knowledge Graph Visualization:** Automatically maps interconnected document nodes, semantic tags, and entity relationships to uncover hidden insights.
+- 📝 **Smart AI Workspace & Editor:** Seamless TipTap Rich Text Editor featuring AI-assisted writing tools (summarization, rephrasing, inline content generation).
+- 📊 **Built-in Observability & Analytics:** Real-time query performance monitoring, token consumption tracking, and audit logging.
+- 🔒 **Secure Authentication:** Integrated session management and secure API route protections.
 
 ---
 
-## 🏗️ System Architecture & Data Flow
+## 🛠️ Architecture & Tech Stack
+
+### Technology Stack
+- **Framework & Routing:** [Next.js 14](https://nextjs.org/) (App Router, Server Actions, API Routes)
+- **Language & Styling:** [TypeScript 5](https://www.typescriptlang.org/), [Tailwind CSS](https://tailwindcss.com/), Lucide Icons
+- **Rich Text Editor:** [TipTap Editor](https://tiptap.dev/) (`@tiptap/react`, `@tiptap/starter-kit`)
+- **Database & Vector Engine:** [Neon Postgres](https://neon.tech/) (`@neondatabase/serverless` + `pgvector`)
+- **AI & LLM Integration:** OpenRouter API (`gpt-4o-mini`, `text-embedding-3-small` / custom models)
+- **Document Parser:** `pdf-parse` for automated text extraction
+- **Observability:** Custom metrics, request duration logger, and token tracker
+
+---
+
+## 📁 Repository Structure
 
 ```
-+-------------------------------------------------------------------+
-|                           FRONTEND                                |
-|  Next.js 14 (App Router) + React + Tailwind CSS + Shadcn UI       |
-|  - TipTap / Editor Component                                     |
-|  - SSE Client (AI Streaming UI)                                   |
-+---------------------------------+---------------------------------+
-                                  | HTTP / SSE
-                                  v
-+-------------------------------------------------------------------+
-|                           BACKEND API                             |
-|  Next.js API Routes / Node.js (Fastify/Express)                   |
-|  - Auth & Document Service                                        |
-|  - Ingestion Pipeline (LangChain / LlamaIndex)                    |
-+-----------------+---------------------------------+---------------+
-                  |                                 |
-     Vector Data  |                                 | Structured Data
-                  v                                 v
-+-----------------------------------+   +---------------------------+
-|         VECTOR DATABASE           |   |    RELATIONAL DATABASE    |
-| Supabase Vector (pgvector) /      |   | PostgreSQL (Supabase)     |
-| Pinecone                          |   | - Users, Metadata, Logs   |
-+-----------------------------------+   +---------------------------+
+brainsync-ai/
+├── public/                # Static assets & icons
+├── src/
+│   ├── app/               # Next.js 14 App Router
+│   │   ├── api/           # Backend API Endpoints
+│   │   │   ├── analytics/ # Observability & system metrics
+│   │   │   ├── auth/      # Login/Logout & session handler
+│   │   │   ├── chat/      # Single chat RAG streaming endpoint
+│   │   │   ├── chats/     # Conversation history management
+│   │   │   ├── documents/ # Document upload, chunking & list
+│   │   │   ├── graph/     # Knowledge graph node & edge data
+│   │   │   ├── scrape/    # Web URL content extraction
+│   │   │   └── search/    # Hybrid search (vector + keyword)
+│   │   ├── dashboard/     # Workspace UI routes
+│   │   ├── globals.css    # Global Tailwind CSS styles
+│   │   ├── layout.tsx     # Application root layout
+│   │   └── page.tsx       # Landing page & dashboard entrance
+│   ├── components/        # Reusable React & UI Components
+│   │   ├── Header.tsx     # Top navigation bar
+│   │   ├── Sidebar.tsx    # Knowledge navigation sidebar
+│   │   ├── TipTap.tsx     # Rich text editor component
+│   │   └── ...
+│   ├── lib/               # Core utility modules & database drivers
+│   │   ├── auth.ts        # Authentication helpers
+│   │   ├── db.ts          # Neon Serverless postgres connection pool
+│   │   ├── hybridSearch.ts# Vector & Keyword search implementation
+│   │   ├── models.ts      # Data types & interfaces
+│   │   ├── observability.ts# Analytics & metric logger
+│   │   └── openrouter.ts  # OpenRouter API client wrapper
+│   └── types/             # TypeScript definitions
+├── package.json           # Project dependencies & scripts
+├── tailwind.config.ts     # Tailwind configuration
+└── tsconfig.json          # TypeScript configuration
 ```
 
 ---
 
-## 📊 Database Schema Design
+## 🗄️ Database Schema & Vector Indexing
+
+The project utilizes **PostgreSQL** with the **`pgvector`** extension hosted on Neon Serverless.
 
 ```sql
+-- Enable vector extension
+CREATE EXTENSION IF NOT EXISTS vector;
+
 -- Documents Table
-CREATE TABLE documents (
+CREATE TABLE IF NOT EXISTS documents (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  user_id VARCHAR(255) NOT NULL,
   title VARCHAR(255) NOT NULL,
-  file_path TEXT NOT NULL,
+  file_path TEXT,
   file_type VARCHAR(50) NOT NULL,
-  status VARCHAR(20) DEFAULT 'PROCESSING', -- 'PROCESSING', 'READY', 'FAILED'
+  content TEXT,
+  status VARCHAR(20) DEFAULT 'READY',
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Document Chunks Table (Vector Store)
-CREATE TABLE document_chunks (
+-- Document Chunks Table with Vector Embeddings
+CREATE TABLE IF NOT EXISTS document_chunks (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
   content TEXT NOT NULL,
-  embedding VECTOR(1536), -- Dimension size for text-embedding-3-small
-  page_number INT,
+  embedding VECTOR(1536), -- Vector size matching OpenAI/OpenRouter embeddings
+  chunk_index INT NOT NULL,
   metadata JSONB DEFAULT '{}'::jsonb,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Index for Vector Cosine Distance
-CREATE INDEX ON document_chunks USING ivfflat (embedding vector_cosine_ops) WITH (lists = 100);
+-- Vector Cosine Index for Fast Similarity Search
+CREATE INDEX IF NOT EXISTS document_chunks_embedding_idx 
+ON document_chunks 
+USING ivfflat (embedding vector_cosine_ops) 
+WITH (lists = 100);
 ```
 
 ---
 
-## 🚀 Getting Started & Local Setup
+## 🚦 Getting Started
 
 ### Prerequisites
-- Node.js >= 18.17.0
-- Supabase Account & PostgreSQL Instance with `pgvector` enabled
-- OpenAI API Key or Google Gemini API Key
 
-### Installation
+Ensure you have the following installed on your machine:
+- **Node.js** `>= 18.17.0`
+- **npm** or **pnpm** / **yarn**
+- A **Neon PostgreSQL Database** instance with `pgvector` enabled
+- An **OpenRouter API Key**
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/your-username/brainsync-ai.git
-   cd brainsync-ai
-   ```
+### 1. Installation
 
-2. **Install dependencies:**
-   ```bash
-   npm install
-   # or
-   pnpm install
-   ```
+Clone the repository and install the project dependencies:
 
-3. **Configure Environment Variables:**
-   Create a `.env.local` file in the root directory:
-   ```env
-   NEXT_PUBLIC_SUPABASE_URL=https://your-supabase-project.supabase.co
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
-   SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
-   
-   OPENAI_API_KEY=your-openai-api-key
-   # or
-   GEMINI_API_KEY=your-gemini-api-key
+```bash
+git clone https://github.com/Pusri27/brainsync-ai.git
+cd brainsync-ai
+npm install
+```
 
-   UPSTASH_REDIS_REST_URL=your-upstash-redis-url
-   UPSTASH_REDIS_REST_TOKEN=your-upstash-redis-token
-   ```
+### 2. Environment Variables Configuration
 
-4. **Run Database Migrations:**
-   Execute the schema SQL inside your Supabase SQL Editor.
+Create a `.env.local` file in the root directory and add the following variables:
 
-5. **Start Development Server:**
-   ```bash
-   npm run dev
-   ```
-   Open [http://localhost:3000](http://localhost:3000) in your browser.
+```env
+# Neon Postgres Connection String
+DATABASE_URL=postgresql://user:password@ep-xxxx.neon.tech/neondb?sslmode=require
 
----
+# OpenRouter API Credentials
+OPENROUTER_API_KEY=your_openrouter_api_key_here
 
-## 🗺️ Implementation Roadmap
+# Next Auth Secret & Base URL
+NEXTAUTH_SECRET=your_super_secret_jwt_key
+NEXTAUTH_URL=http://localhost:3000
+```
 
-- [x] **Phase 1: Foundation (MVP)**
-  - Next.js 14 setup with Shadcn UI.
-  - Supabase Auth & RLS Configuration.
-  - Basic PDF/Text Upload & Vectorization Pipeline (`pgvector`).
-  - Single-session RAG Chat UI.
+### 3. Running the Application
 
-- [ ] **Phase 2: Core Polish & UX**
-  - Vercel AI SDK Integration for Word-by-Word Streaming Responses.
-  - Citation Accordion / Source Highlight Overlay in Chat.
-  - Background Job status tracking (Ingestion Progress Bar).
+Launch the local development server:
 
-- [ ] **Phase 3: Smart Editor & Enhancements**
-  - TipTap Editor integration with custom AI slash commands (`/summarize`, `/rephrase`).
-  - Upstash Redis Rate Limiting middleware.
-  - Hybrid Search (BM25 Keyword Search + Vector Similarity Search).
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to explore **BrainSync AI**.
+
+To create a production build:
+
+```bash
+npm run build
+npm run start
+```
 
 ---
 
-## 📄 License
-Distributed under the MIT License. See `LICENSE` for more information.
+## 📡 API Overview
+
+| Endpoint | Method | Description |
+| :--- | :--- | :--- |
+| `/api/auth/logout` | `POST` | Invalidates current user session |
+| `/api/documents` | `GET` / `POST` | Retrieve user documents or upload/process new document |
+| `/api/documents/[id]/chunks` | `GET` | Fetch parsed text chunks for a specific document |
+| `/api/chat` | `POST` | Query the RAG engine for streaming AI responses with citations |
+| `/api/chats` | `GET` / `POST` | Manage user chat sessions and history |
+| `/api/search` | `POST` | Execute hybrid search (vector similarity + keyword filtering) |
+| `/api/graph` | `GET` | Fetch document nodes and relationship edges for visualization |
+| `/api/scrape` | `POST` | Scrape web page URLs and ingest raw text into vector database |
+| `/api/analytics` | `GET` | Get system metrics, token counts, and performance logs |
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! If you find bugs or want to introduce new features:
+
+1. Fork the Repository
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## 📜 License
+
+Distributed under the **MIT License**. See `LICENSE` for details.
