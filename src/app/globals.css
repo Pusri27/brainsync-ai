@@ -1,0 +1,79 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@layer base {
+  body {
+    @apply bg-[#212121] text-[#ececec] antialiased font-sans text-base leading-relaxed min-h-screen selection:bg-[#383838] selection:text-white;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #383838;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #424242;
+}
+
+/* Citation link badges with larger font */
+.citation-link {
+  @apply inline-flex items-center px-2.5 py-1 ml-1 rounded-md text-xs font-mono font-medium bg-[#2f2f2f] text-[#ececec] border border-[#383838] hover:bg-[#383838] hover:border-zinc-500 cursor-pointer select-none transition-colors;
+}
+
+/* ProseMirror Style with Larger Fonts */
+.ProseMirror {
+  outline: none;
+  min-height: 380px;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  color: #8e8e93;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.ProseMirror h1 {
+  @apply text-2xl font-bold text-zinc-100 mt-6 mb-3;
+}
+
+.ProseMirror h2 {
+  @apply text-xl font-semibold text-zinc-200 mt-5 mb-2.5;
+}
+
+.ProseMirror h3 {
+  @apply text-lg font-medium text-zinc-300 mt-4 mb-2;
+}
+
+.ProseMirror p {
+  @apply text-[#ececec] leading-relaxed mb-3.5 text-base;
+}
+
+.ProseMirror ul {
+  @apply list-disc list-inside space-y-1.5 text-[#ececec] text-base mb-3.5 pl-1;
+}
+
+.ProseMirror ol {
+  @apply list-decimal list-inside space-y-1.5 text-[#ececec] text-base mb-3.5 pl-1;
+}
+
+.ProseMirror blockquote {
+  @apply border-l-2 border-zinc-500 pl-4 italic text-zinc-400 my-4 py-1 text-base bg-[#2f2f2f]/50 rounded-r;
+}
+
+.ProseMirror code {
+  @apply bg-[#2f2f2f] text-zinc-200 px-2 py-0.5 rounded font-mono text-sm border border-[#383838];
+}

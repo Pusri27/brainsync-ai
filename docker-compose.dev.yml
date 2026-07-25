@@ -1,0 +1,20 @@
+services:
+  brainsync-frontend-dev:
+    image: node:20-alpine
+    container_name: brainsync-frontend-dev
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
+      - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
+    env_file:
+      - .env.local
+    command: sh -c "npm install && npm run dev"

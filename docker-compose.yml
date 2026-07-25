@@ -1,0 +1,16 @@
+services:
+  brainsync-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: brainsync-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - POSTGRES_URL=${POSTGRES_URL}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+    env_file:
+      - .env.local
